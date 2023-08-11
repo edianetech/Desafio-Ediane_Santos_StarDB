@@ -1,35 +1,41 @@
 # Desafio-Ediane_Santos_StarDB
-Você foi contratado para automatizar o caixa da Lanchonete da DB. Sua missão será construir a lógica que calcula o valor de uma compra de acordo com o cardápio, regras e descontos da Lanchonete.
 
-CARDÁPIO
-codigo	descrição	valor
-cafe	Café	R$ 3,00
-chantily	Chantily (extra do Café)	R$ 1,50
-suco	Suco Natural	R$ 6,20
-sanduiche	Sanduíche	R$ 6,50
-queijo	Queijo (extra do Sanduíche)	R$ 2,00
-salgado	Salgado	R$ 7,25
-combo1	1 Suco e 1 Sanduíche	R$ 9,50
-combo2	1 Café e 1 Sanduíche	R$ 7,50
-FORMAS DE PAGAMENTO
-Atualmente a Lanchonete aceita as seguintes formas de pagamento:
+// Definindo o cardápio com os itens e seus preços
+const cardapio = {
+  cafe: 3.00,
+  chantily: 1.50,
+  suco: 6.20,
+  sanduiche: 6.50,
+  queijo: 2.00,
+  salgado: 7.25,
+  combo1: 9.50,
+  combo2: 7.50
+};
 
-dinheiro
-debito
-credito
-O sistema deve receber essa informação como string, utilizando a grafia exatamente igual aos exemplos acima.
+// Função para calcular o valor total da compra
+function calcularValorDaCompra(itensSelecionados, metodoPagamento) {
+  let total = 0;
 
-DESCONTOS E TAXAS
-Pagamento em dinheiro tem 5% de desconto
-Pagamento a crédito tem acréscimo de 3% no valor total
-OUTRAS REGRAS
-Caso item extra seja informado num pedido que não tenha o respectivo item principal, apresentar mensagem "Item extra não pode ser pedido sem o principal".
-Combos não são considerados como item principal.
-É possível pedir mais de um item extra sem precisar de mais de um principal.
-Se não forem pedidos itens, apresentar mensagem "Não há itens no carrinho de compra!"
-Se a quantidade de itens for zero, apresentar mensagem "Quantidade inválida!".
-Se o código do item não existir, apresentar mensagem "Item inválido!"
-Se a forma de pagamento não existir, apresentar mensagem "Forma de pagamento inválida!"
+  // Iterar sobre os itens selecionados e somar os preços
+  for (const item of itensSelecionados) {
+    total += cardapio[item] || 0;
+  }
+
+  // Aplicar desconto ou acréscimo com base no método de pagamento
+  if (metodoPagamento === 'dinheiro') {
+    total *= 0.95; // Aplicar 5% de desconto
+  } else if (metodoPagamento === 'credito') {
+    total *= 1.03; // Aplicar 3% de acréscimo
+  }
+
+  return total;
+}
 
 
+const itensSelecionados = ['cafe', 'sanduiche', 'queijo'];
+const metodoPagamento = 'dinheiro'; // ou 'credito'
+
+const valorTotal = calcularValorDaCompra(itensSelecionados, metodoPagamento);
+
+console.log(`Valor total da compra: R$ ${valorTotal.toFixed(2)}`);
 
